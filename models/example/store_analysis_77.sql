@@ -1,18 +1,83 @@
 
 -- models/sales_analysis.sql
-{{ config(enabled = true, materialized='table') }}
+-- {{ config(enabled = true, materialized='table') }}
 
+- Configuration
+{% if target.name == 'dev' %}
+    {{ config(
+        materialized='table',
+        schema='DEV',
+        database='DBT_DEV'
+    ) }}
+{% elif target.name == 'qa' %}
+    {{ config(
+        materialized='table',
+        schema='QA',
+        database='DBT_QA'
+    ) }}
+{% endif %}
 
 -- first cte:
 with store_sales_1 as (
-    select ss_store_sk, ss_ext_sales_price, ss_net_profit, ss_sold_time_sk, ss_sold_date_sk
+    select ss_store_sk, 
+    ss_ext_sales_price, 
+    ss_net_profit, 
+    ss_sold_time_sk, 
+    ss_sold_date_sk
      from {{ source('snowflake_sample_data', 'store_sales') }}
 ), 
+
 date_dim_1 as (
     select d_date_sk, 
     d_date 
     from {{ source('snowflake_sample_data', 'date_dim') }}
 ),
+store_returns_1 as (
+    select 
+        sr_store_sk, 
+        sr_return_amt, 
+        sr_net_loss, 
+        sr_returned_date_sk
+    from 
+        {{ source('snowflake_sample_data', 'store_returns') }}
+), 
+catalog_sales_1 as (
+    select 
+        cs_call_center_sk, 
+        cs_ext_sales_price, 
+        cs_net_profit, 
+        cs_sold_date_sk
+    from 
+        {{ source('snowflake_sample_data', 'catalog_sales') }}
+),
+catalog_returns_1 as (
+    select 
+        cr_call_center_sk, 
+        cr_return_amount, 
+        cr_net_loss, 
+        cr_returned_date_sk
+    from 
+        {{ source('snowflake_sample_data', 'catalog_returns') }}
+), 
+web_sales_1 as (
+    select 
+        ws_web_page_sk, 
+        ws_ext_sales_price, 
+        ws_net_profit, 
+        ws_sold_date_sk
+    from 
+        {{ source('snowflake_sample_data', 'web_sales') }}
+),
+web_returns_1 as (
+    select 
+        wr_web_page_sk, 
+        wr_return_amt, 
+        wr_net_loss, 
+        wr_returned_date_sk
+    from 
+        {{ source('snowflake_sample_data', 'web_returns') }}
+),
+-- first cte
 ss_join_d as (
     select ss1.ss_sold_date_sk,
             ss1.ss_store_sk,
@@ -37,24 +102,7 @@ ss as (
     group by 
         ss_join_d.ss_store_sk
 ), 
-
 -- second cte
-store_returns_1 as (
-    select 
-        sr_store_sk, 
-        sr_return_amt, 
-        sr_net_loss, 
-        sr_returned_date_sk
-    from 
-        {{ source('snowflake_sample_data', 'store_returns') }}
-), 
--- date_dim_1 as (
---     select 
---         d_date_sk, 
---         d_date 
---     from 
---         {{ source('snowflake_sample_data', 'date_dim') }}
--- ),
 sr_join_d as (
     select 
         sr1.sr_returned_date_sk,
@@ -82,22 +130,6 @@ sr as (
 
 -- third cte 
 
-catalog_sales_1 as (
-    select 
-        cs_call_center_sk, 
-        cs_ext_sales_price, 
-        cs_net_profit, 
-        cs_sold_date_sk
-    from 
-        {{ source('snowflake_sample_data', 'catalog_sales') }}
-), 
--- date_dim_1 as (
---     select 
---         d_date_sk, 
---         d_date 
---     from 
---         {{ source('snowflake_sample_data', 'date_dim') }}
--- ),
 cs_join_d as (
     select 
         cs1.cs_sold_date_sk,
@@ -124,22 +156,7 @@ cs as (
 ),
 
 -- fourth cte
-catalog_returns_1 as (
-    select 
-        cr_call_center_sk, 
-        cr_return_amount, 
-        cr_net_loss, 
-        cr_returned_date_sk
-    from 
-        {{ source('snowflake_sample_data', 'catalog_returns') }}
-), 
--- date_dim_1 as (
---     select 
---         d_date_sk, 
---         d_date 
---     from 
---         {{ source('snowflake_sample_data', 'date_dim') }}
--- ),
+
 cr_join_d as (
     select 
         cr1.cr_returned_date_sk,
@@ -165,23 +182,6 @@ cr as (
         cr_join_d.cr_call_center_sk
 ),
 -- fifth cte
-
-web_sales_1 as (
-    select 
-        ws_web_page_sk, 
-        ws_ext_sales_price, 
-        ws_net_profit, 
-        ws_sold_date_sk
-    from 
-        {{ source('snowflake_sample_data', 'web_sales') }}
-), 
--- date_dim_1 as (
---     select 
---         d_date_sk, 
---         d_date 
---     from 
---         {{ source('snowflake_sample_data', 'date_dim') }}
--- ),
 ws_join_d as (
     select 
         ws1.ws_sold_date_sk,
@@ -208,22 +208,7 @@ ws as (
 ),
 
 -- six cte
-web_returns_1 as (
-    select 
-        wr_web_page_sk, 
-        wr_return_amt, 
-        wr_net_loss, 
-        wr_returned_date_sk
-    from 
-        {{ source('snowflake_sample_data', 'web_returns') }}
-), 
--- date_dim_1 as (
---     select 
---         d_date_sk, 
---         d_date 
---     from 
---         {{ source('snowflake_sample_data', 'date_dim') }}
--- ),
+ 
 wr_join_d as (
     select 
         wr1.wr_returned_date_sk,
