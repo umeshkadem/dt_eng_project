@@ -6,14 +6,14 @@
 {% if target.name == 'dev' %}
     {{ config(
         materialized='table',
-        schema='DEV',
-        database='DBT_DEV'
+        schema='DB_DEV_SCHEMA',
+        database='DB_DEV'
     ) }}
 {% elif target.name == 'qa' %}
     {{ config(
         materialized='table',
-        schema='QA',
-        database='DBT_QA'
+        schema='DB_QA_SCHEMA',
+        database='DB_QA'
     ) }}
 {% endif %}
 
