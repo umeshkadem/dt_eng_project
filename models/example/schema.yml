@@ -1,0 +1,41 @@
+
+version: 2
+
+models:
+  - name: my_first_dbt_model
+    description: "A starter dbt model"
+    columns:
+      - name: id
+        description: "The primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+
+  - name: my_second_dbt_model
+    description: "A starter dbt model"
+    columns:
+      - name: id
+        description: "The primary key for this table"
+        data_tests:
+          - unique
+          - not_null
+
+sources:
+  - name: snowflake_sample_data
+    description: 'A sample database provided by Snowflake'
+    database: snowflake_sample_data
+    schema: TPCDS_SF10TCL
+    tables:
+      - name: store_sales
+      - name: date_dim
+      - name: store
+      - name: store_returns
+      - name: catalog_sales
+      - name: catalog_returns
+      - name: web_sales
+      - name: web_returns
+      - name: web_page
+      # - name: store_sales
+      - name: household_demographics
+      - name: time_dim
+      # - name: store
