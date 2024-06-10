@@ -14,6 +14,7 @@
 {% endif %}
 
 
+
 -- first
 with s_s as (
     select ss_hdemo_sk, ss_sold_time_sk, ss_store_sk 
