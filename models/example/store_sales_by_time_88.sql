@@ -1,7 +1,20 @@
--- models/store_sales_by_time.sql
-{{ config(enabled = true, materialized='table') }}
+-- Configuration
+{% if target.name == 'dev' %}
+    {{ config(
+        materialized='table',
+        schema='DB_DEV_SCHEMA',
+        database='DB_DEV'
+    ) }}
+{% elif target.name == 'qa' %}
+    {{ config(
+        materialized='table',
+        schema='DB_QA_SCHEMA',
+        database='DB_QA'
+    ) }}
+{% endif %}
 
 
+-- first
 with s_s as (
     select ss_hdemo_sk, ss_sold_time_sk, ss_store_sk 
     from {{ source('snowflake_sample_data', 'store_sales') }}

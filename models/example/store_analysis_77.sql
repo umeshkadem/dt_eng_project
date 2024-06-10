@@ -1,8 +1,4 @@
-
--- models/sales_analysis.sql
--- {{ config(enabled = true, materialized='table') }}
-
-- Configuration
+-- Configuration
 {% if target.name == 'dev' %}
     {{ config(
         materialized='table',
@@ -16,6 +12,7 @@
         database='DB_QA'
     ) }}
 {% endif %}
+
 
 -- first cte:
 with store_sales_1 as (
