@@ -110,56 +110,56 @@ ss_hd_t_join_s1 as (
     from ss_hd_join_t1 as ss_hd_t
     join st as s
     on ss_hd_t.ss_store_sk = s.s_store_sk
-    where s.s_store_name = 'ese'
+    where s.s_store_name = 'Unknown'
 ),
 ss_hd_t_join_s2 as (
     select ss_hd_t.ss_store_sk, s.s_store_sk
     from ss_hd_join_t2 as ss_hd_t
     join st as s
     on ss_hd_t.ss_store_sk = s.s_store_sk
-    where s.s_store_name = 'ese'
+    where s.s_store_name = 'Unknown'
 ),
 ss_hd_t_join_s3 as (
     select ss_hd_t.ss_store_sk, s.s_store_sk
     from ss_hd_join_t3 as ss_hd_t
     join st as s
     on ss_hd_t.ss_store_sk = s.s_store_sk
-    where s.s_store_name = 'ese'
+    where s.s_store_name = 'Unknown'
 ),
 ss_hd_t_join_s4 as (
     select ss_hd_t.ss_store_sk, s.s_store_sk
     from ss_hd_join_t4 as ss_hd_t
     join st as s
     on ss_hd_t.ss_store_sk = s.s_store_sk
-    where s.s_store_name = 'ese'
+    where s.s_store_name = 'Unknown'
 ),
 ss_hd_t_join_s5 as (
     select ss_hd_t.ss_store_sk, s.s_store_sk
     from ss_hd_join_t5 as ss_hd_t
     join st as s
     on ss_hd_t.ss_store_sk = s.s_store_sk
-    where s.s_store_name = 'ese'
+    where s.s_store_name = 'Unknown'
 ),
 ss_hd_t_join_s6 as (
     select ss_hd_t.ss_store_sk, s.s_store_sk
     from ss_hd_join_t6 as ss_hd_t
     join st as s
     on ss_hd_t.ss_store_sk = s.s_store_sk
-    where s.s_store_name = 'ese'
+    where s.s_store_name = 'Unknown'
 ),
 ss_hd_t_join_s7 as (
     select ss_hd_t.ss_store_sk, s.s_store_sk
     from ss_hd_join_t7 as ss_hd_t
     join st as s
     on ss_hd_t.ss_store_sk = s.s_store_sk
-    where s.s_store_name = 'ese'
+    where s.s_store_name = 'Unknown'
 ),
 ss_hd_t_join_s8 as (
     select ss_hd_t.ss_store_sk, s.s_store_sk
     from ss_hd_join_t8 as ss_hd_t
     join st as s
     on ss_hd_t.ss_store_sk = s.s_store_sk
-    where s.s_store_name = 'ese'
+    where s.s_store_name = 'Unknown'
 ),
 
 -- CTEs for counts
