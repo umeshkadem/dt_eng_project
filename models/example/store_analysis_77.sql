@@ -242,7 +242,7 @@ fc as (
         (profit - coalesce(profit_loss, 0)) as profit
     from 
         ss 
-    left join 
+    left join  
         sr on ss.ss_store_sk = sr.sr_store_sk
 
     union all
